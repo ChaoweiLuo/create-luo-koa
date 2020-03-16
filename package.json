@@ -1,0 +1,14 @@
+{
+  "name": "create-luo-koa",
+  "version": "1.0.3",
+  "license": "MIT",
+  "bin": {
+    "create-luo-koa": "./index.js"
+  },
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "commander": "^5.0.0",
+    "cross-spawn": "^7.0.1",
+    "prompts": "^2.3.1"
+  }
+}
