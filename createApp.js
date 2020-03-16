@@ -66,7 +66,7 @@ async function create() {
   // 打印提示信息
   console.log(chalk.green('项目生成完。'));
   console.log('你可以输入下面的命令运行：');
-  console.log(`${chalk.green('cd demo')} && ${chalk.green('node app.js')}`);
+  console.log(`${chalk.green('cd '+ project_name)} && ${chalk.green('node app.js')}`);
 }
 
 // 检查目录是否存在，如果不存在就新建一个目录
@@ -173,27 +173,23 @@ function generate_package_json(toPath, package_name, mids) {
     "koa-session": "^5.13.1",
     "koa-static": "^5.0.0"
   };
-  let deps = []; // 项目实际使用了的
+  let ds = {}; // 项目实际使用了的
   mids.map(m => {
     let depName = `koa-${m}`;
-    deps.push(`"${depName}": "${midDependences[depName]}"`);
+    ds[depName] = midDependences[depName];
   });
-
-
-  let template = `
-    {
-      "name": "${package_name}",
-      "version": "1.0.0",
-      "private": true,
-      "license": "MIT",
-      "dependencies": {
-        "koa": "^2.11.0",
-        ${deps.join(',\r\n')}
-      }
+  let o = {
+    name: package_name,
+    version: '1.0.0',
+    private: true,
+    license: 'MIT',
+    dependencies: {
+      'koa': '^2.11.0'
     }
-  `;
-  let obj = JSON.parse(template);
-  template = JSON.stringify(obj, null, 2);
+  };
+
+  Object.assign(o.dependencies, ds);
+  let template = JSON.stringify(o, null, 2);
   fs.writeFileSync(path.join(toPath, 'package.json'), template, { encoding: 'utf-8' });
 }
 
